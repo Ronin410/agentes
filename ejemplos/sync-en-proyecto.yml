@@ -1,0 +1,23 @@
+# Copia este archivo a .github/workflows/sync-agentes.yml en tu proyecto.
+# Requisito: en Settings → Actions → General del proyecto, habilita
+# "Allow GitHub Actions to create and approve pull requests".
+name: Sincronizar agentes
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Rama o tag de ronin410/agentes
+        default: main
+  schedule:
+    - cron: "17 9 * * 1" # lunes 09:17 UTC
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    uses: ronin410/agentes/.github/workflows/sync-agentes.yml@main
+    with:
+      ref: ${{ inputs.ref || 'main' }}

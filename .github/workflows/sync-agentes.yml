@@ -1,0 +1,72 @@
+# Workflow reutilizable (respaldo): copia agents/, commands/ y plantillas/ de este
+# repositorio al .claude/ del proyecto que lo llama y abre un PR si hay cambios.
+# Úsalo solo si el plugin no carga en las sesiones web. Ver ejemplos/sync-en-proyecto.yml.
+name: Sincronizar agentes
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Rama o tag de ronin410/agentes a sincronizar (ej. main o v0.1.0)
+        type: string
+        default: main
+      repositorio:
+        description: Repositorio fuente de los agentes
+        type: string
+        default: ronin410/agentes
+      rama-base:
+        description: Rama del proyecto contra la que se abre el PR (vacío = rama por defecto)
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del proyecto
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.rama-base }}
+
+      - name: Checkout de los agentes
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repositorio }}
+          ref: ${{ inputs.ref }}
+          path: .agentes-fuente
+
+      - name: Leer versión del plugin
+        id: version
+        run: |
+          version=$(jq -r '.version' .agentes-fuente/.claude-plugin/plugin.json)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Copiar agentes, comandos y plantillas
+        run: |
+          mkdir -p .claude/agents .claude/commands .claude/plantillas
+          cp .agentes-fuente/agents/*.md .claude/agents/
+          cp .agentes-fuente/commands/*.md .claude/commands/
+          cp .agentes-fuente/plantillas/* .claude/plantillas/
+          rm -rf .agentes-fuente
+
+      - name: Abrir PR si hay cambios
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/sincronizar-agentes
+          base: ${{ inputs.rama-base }}
+          add-paths: |
+            .claude/agents
+            .claude/commands
+            .claude/plantillas
+          commit-message: "chore: sincronizar agentes v${{ steps.version.outputs.version }}"
+          title: "chore: sincronizar agentes v${{ steps.version.outputs.version }}"
+          body: |
+            Sincroniza `.claude/agents/`, `.claude/commands/` y `.claude/plantillas/` desde
+            `${{ inputs.repositorio }}@${{ inputs.ref }}` (versión `${{ steps.version.outputs.version }}`).
+
+            Generado por el workflow reutilizable `sync-agentes.yml`.
+          delete-branch: true

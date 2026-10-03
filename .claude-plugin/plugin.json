@@ -1,0 +1,11 @@
+{
+  "name": "agentes",
+  "displayName": "Agentes por roles",
+  "version": "0.1.0",
+  "description": "Equipo estandarizado de agentes por roles (Arquitecto, Desarrollador, QA/Seguridad), comandos y plantillas para spec-driven development.",
+  "author": {
+    "name": "Alejandro Bueno"
+  },
+  "repository": "https://github.com/ronin410/agentes",
+  "keywords": ["agentes", "spec-driven", "qa", "seguridad", "arquitectura"]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "alejandro-agentes",
+  "description": "Marketplace personal de Alejandro con el plugin de agentes por roles.",
+  "owner": {
+    "name": "Alejandro Bueno"
+  },
+  "plugins": [
+    {
+      "name": "agentes",
+      "source": "./",
+      "description": "Agentes Arquitecto, Desarrollador y QA/Seguridad + comandos para el ciclo de vida de una spec.",
+      "category": "development"
+    }
+  ]
+}
