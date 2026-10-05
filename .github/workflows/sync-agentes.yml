@@ -7,9 +7,9 @@ on:
   workflow_call:
     inputs:
       ref:
-        description: Rama o tag de ronin410/agentes a sincronizar (ej. main o v0.1.0)
+        description: Rama o tag de ronin410/agentes a sincronizar (ej. master o v0.1.0)
         type: string
-        default: main
+        default: master
       repositorio:
         description: Repositorio fuente de los agentes
         type: string

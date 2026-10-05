@@ -2,6 +2,11 @@
 
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/); versiones con [SemVer](https://semver.org/lang/es/).
 
+## [Sin publicar]
+
+### Corregido
+- El workflow de respaldo y su ejemplo apuntaban a la rama `main`; este repo usa `master` (`@master`, `ref: master`).
+
 ## [0.1.0] - 2026-10-03
 
 ### Agregado

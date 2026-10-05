@@ -127,7 +127,7 @@ No se usan git submodules porque las sesiones en la nube pueden no inicializarlo
 5. Commit, tag y push:
 
    ```bash
-   git tag v0.2.0 && git push origin main --tags
+   git tag v0.2.0 && git push origin master --tags
    ```
 
 6. Los proyectos sin `ref` toman la nueva versión al iniciar una sesión nueva; los que fijaron `"ref": "v0.1.0"` deben actualizar el `ref`. En respaldo, corre el workflow con el nuevo tag.
